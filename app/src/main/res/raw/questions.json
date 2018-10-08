@@ -1,0 +1,43 @@
+[
+{
+        "question": "Parrots have 0 vocal chords",
+        "answer": true
+},
+{
+        "question": "Ben is Bronze VI",
+        "answer": true
+},
+{
+        "question": "The clock tower in London",
+        "answer": false
+},
+{
+        "question": "The date today is 2/30/19",
+        "answer": false
+},
+{
+        "question": "Dovahzul > French",
+        "answer": true
+}
+{
+        "question": "This statement is true",
+        "answer": true
+},
+{
+        "question": "You are not playing this game",
+        "answer": false
+},
+{
+        "question": "What's the opposite of true?",
+        "answer": false
+},
+{
+        "question": "Click the button on the left",
+        "answer": false
+},
+{
+        "question": "This quiz is over",
+        "answer": true
+}
+
+]
