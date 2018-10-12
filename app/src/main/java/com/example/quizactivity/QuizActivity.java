@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -31,10 +32,17 @@ public class QuizActivity extends AppCompatActivity {
     
     private Button trueSelect;
     private Button falseSelect;
+
+    private Quiz quiz;
+    private int i = 0;
+
+    private int scoreNumber;
     
     private TextView score;
 
     public static final String TAG = "MainActivity";
+
+
 
     //private String q;
 
@@ -45,47 +53,54 @@ public class QuizActivity extends AppCompatActivity {
         
         wireWidgets();
         setOnClickListeners();
-       // writeText("text.txt", readQuestions("res/raw/questions.json"));
-
         InputStream XmlFileInputStream = getResources().openRawResource(R.raw.questions);
         String jsonString = readTextFile(XmlFileInputStream);
-        // create a gson object
         Gson gson = new Gson();
-// read your json file into an array of questions
         Question[] questions =  gson.fromJson(jsonString, Question[].class);
-// convert your array to a list using the Arrays utility class
         List<Question> questionList = Arrays.asList(questions);
-// verify that it read everything properly
         Log.d(TAG, "onCreate: " + questionList.toString());
+        quiz = new Quiz(questionList);
+        updateDisplay(3);
+
+
     }
 
 
 
+    private void updateDisplay(int winOrLose) {
+        if(winOrLose != 3){if(winOrLose == 1){scoreNumber++;}}
+
+        String scoreString = "Score: ";
+        score.setText(scoreString + scoreNumber);
+        if(nextQExsist() == true) {
+            nextQuestion();
+        }
+        else{
+            endQuiz();
+        }
 
 
+    }
 
-    private void writeText(String filename, String text) {
-        File file = new File(filename);
-        if (!file.exists())
-            try {
-                file.createNewFile();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
+    private void endQuiz() {
+        Toast.makeText(this, "QUIZ IS OVERRRR", Toast.LENGTH_SHORT).show();
+    }
 
-        FileWriter fileWriter;
-        try {
-            fileWriter = new FileWriter(file, false);
-
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.append(text);
-
-            bufferedWriter.close();
-
-        } catch (IOException e) {
-          e.printStackTrace();
+    private boolean nextQExsist() {
+        if(quiz.getQuestion(i+1) == null){
+            return false;
+        }
+        else{
+            return true;
         }
     }
+
+    private void nextQuestion() {
+        question.setText(quiz.getQuestion(i).toString());
+        i++;
+    }
+
+
 
     public String readTextFile(InputStream inputStream) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -111,13 +126,25 @@ public class QuizActivity extends AppCompatActivity {
         trueSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if(quiz.getQuestion(i).getAnswer() == true){
+                    updateDisplay(1);
+                }
+                else{
+                    updateDisplay(0);
+                }
             }
         });
 
         falseSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(quiz.getQuestion(i).getAnswer() == false){
+                    Toast.makeText(QuizActivity.this, "CHECKKCKEKKC", Toast.LENGTH_SHORT).show();
+                    updateDisplay(1);
+                }
+                else{
+                    updateDisplay(0);
+                }
 
             }
         });
