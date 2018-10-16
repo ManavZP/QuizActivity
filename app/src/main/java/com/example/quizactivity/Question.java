@@ -9,6 +9,11 @@ public class Question {
     public Question(){
     }
 
+    public Question(String q, boolean ans){
+        question = q;
+        answer = ans;
+    }
+
     public boolean getAnswer() {
         return answer;
     }

@@ -28,13 +28,13 @@ import java.util.List;
 
 public class QuizActivity extends AppCompatActivity {
     
-    private TextView question;
+    private TextView questionText;
     
     private Button trueSelect;
     private Button falseSelect;
 
     private Quiz quiz;
-    private int i = 0;
+    //private int i = 0;
 
     private int scoreNumber;
     
@@ -68,12 +68,16 @@ public class QuizActivity extends AppCompatActivity {
 
 
     private void updateDisplay(int winOrLose) {
-        if(winOrLose != 3){if(winOrLose == 1){scoreNumber++;}}
+        if(winOrLose != 3){
+            if(winOrLose == 1){
+                scoreNumber++;
+                quiz.scoreNum++;
+            }}
 
         String scoreString = "Score: ";
-        score.setText(scoreString + scoreNumber);
-        if(nextQExsist() == true) {
-            nextQuestion();
+        score.setText(scoreString + quiz.scoreNum);
+        if(quiz.nextQExsist() == true) {
+            questionText.setText(quiz.nextQuestion().toString());
         }
         else{
             endQuiz();
@@ -86,19 +90,9 @@ public class QuizActivity extends AppCompatActivity {
         Toast.makeText(this, "QUIZ IS OVERRRR", Toast.LENGTH_SHORT).show();
     }
 
-    private boolean nextQExsist() {
-        if(quiz.getQuestion(i+1) == null){
-            return false;
-        }
-        else{
-            return true;
-        }
-    }
 
-    private void nextQuestion() {
-        question.setText(quiz.getQuestion(i).toString());
-        i++;
-    }
+
+
 
 
 
@@ -126,7 +120,7 @@ public class QuizActivity extends AppCompatActivity {
         trueSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(quiz.getQuestion(i).getAnswer() == true){
+                if(quiz.getQuestion().getAnswer() == true){
                     updateDisplay(1);
                 }
                 else{
@@ -138,7 +132,7 @@ public class QuizActivity extends AppCompatActivity {
         falseSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(quiz.getQuestion(i).getAnswer() == false){
+                if(quiz.getQuestion().getAnswer() == false){
                     Toast.makeText(QuizActivity.this, "CHECKKCKEKKC", Toast.LENGTH_SHORT).show();
                     updateDisplay(1);
                 }
@@ -152,7 +146,7 @@ public class QuizActivity extends AppCompatActivity {
 
     private void wireWidgets() {
         
-        question = findViewById(R.id.textView_quiz_question);
+        questionText = findViewById(R.id.textView_quiz_question);
         trueSelect = findViewById(R.id.button_quiz_true);
         falseSelect = findViewById(R.id.button_quiz_false);
         score = findViewById(R.id.textView_quiz_score);
