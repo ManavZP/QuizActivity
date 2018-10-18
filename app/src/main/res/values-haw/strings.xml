@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="quiz_false">hoʻopunipuni</string>
+    <string name="quiz_true">ʻoiaʻiʻo</string>
+    <string name="score_playagain">e pāʻani hou</string>
+    <string name="score_scoreText">Ka Hopena Final:</string>
+</resources>

@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">QuizActivity</string>
+    <string name="app_name">Useful Trivia</string>
+    <string name="quiz_true">True</string>
+    <string name="quiz_false">False</string>
+    <string name="score_playagain">Play Again</string>
+    <string name="score_scoreText">Final Score:</string>
 </resources>

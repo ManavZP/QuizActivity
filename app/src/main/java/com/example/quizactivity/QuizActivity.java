@@ -1,6 +1,7 @@
 package com.example.quizactivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -43,6 +44,8 @@ public class QuizActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
 
 
+    public static final String EXTRA_SCORE = "score";
+
 
     //private String q;
 
@@ -53,6 +56,8 @@ public class QuizActivity extends AppCompatActivity {
         
         wireWidgets();
         setOnClickListeners();
+
+
         InputStream XmlFileInputStream = getResources().openRawResource(R.raw.questions);
         String jsonString = readTextFile(XmlFileInputStream);
         Gson gson = new Gson();
@@ -71,11 +76,11 @@ public class QuizActivity extends AppCompatActivity {
         if(winOrLose != 3){
             if(winOrLose == 1){
                 scoreNumber++;
-                quiz.scoreNum++;
+                quiz.increaseScore();
             }}
 
         String scoreString = "Score: ";
-        score.setText(scoreString + quiz.scoreNum);
+        score.setText(scoreString + quiz.getScoreNum());
         if(quiz.nextQExsist() == true) {
             questionText.setText(quiz.nextQuestion().toString());
         }
@@ -86,8 +91,34 @@ public class QuizActivity extends AppCompatActivity {
 
     }
 
+//    public void resetQuiz(){
+//        quiz.setQuestion(-1);
+//        questionText.setText(quiz.getQuestion().toString());
+//    }
+
     private void endQuiz() {
-        Toast.makeText(this, "QUIZ IS OVERRRR", Toast.LENGTH_SHORT).show();
+        //int tranfer = ;
+        //create an intent
+
+        quiz.setQuestion(-1);
+        //questionText.setText(quiz.getQuestion().toString());
+
+        int temp = quiz.getScoreNum();
+
+        quiz.resetScore();
+        updateDisplay(3);
+
+        Intent intentScore = new Intent(QuizActivity.this, ScoreActivity.class);
+        //where you are coming and from where you are going
+
+        intentScore.putExtra(EXTRA_SCORE, temp);
+        //package that text into the intent
+
+        //start the activity
+
+        //startActivityForResult(intentRegister, REGISTER_CODE);
+
+        startActivity(intentScore);
     }
 
 
@@ -133,7 +164,7 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(quiz.getQuestion().getAnswer() == false){
-                    Toast.makeText(QuizActivity.this, "CHECKKCKEKKC", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(QuizActivity.this, "CHECKKCKEKKC", Toast.LENGTH_SHORT).show();
                     updateDisplay(1);
                 }
                 else{

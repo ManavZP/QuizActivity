@@ -9,8 +9,8 @@ public class Quiz {
 
     private List<Question> actualQuiz = new ArrayList<Question>();
 
-    int scoreNum = 0;
-    int qNum = -1;
+    private int scoreNum = 0;
+    private int qNum = -1;
 
     public Quiz(List<Question> listoq){
 
@@ -20,6 +20,21 @@ public class Quiz {
 
     }
 
+    public int getScoreNum() {
+        return scoreNum;
+    }
+    public void resetScore(){scoreNum = 0;}
+
+    public void resetGame(){
+        resetScore();
+
+    }
+
+    public void increaseScore(){
+        scoreNum++;
+    }
+
+    public void setQuestion(int i){qNum = i;}
     public Question getQuestion() {
         return actualQuiz.get(qNum);
     }
@@ -50,7 +65,8 @@ public class Quiz {
 
 
     public boolean nextQExsist() {
-        if(getNextQuestion() == null){
+        //use the qnum variable to decide if there are more left and the List
+        if(qNum == actualQuiz.size()-1){
             return false;
         }
         else{

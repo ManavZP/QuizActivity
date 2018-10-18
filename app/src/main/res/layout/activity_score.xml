@@ -4,56 +4,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".QuizActivity">
+    tools:context=".ScoreActivity">
 
     <TextView
-        android:id="@+id/textView_quiz_question"
-        android:layout_width="236dp"
-        android:layout_height="161dp"
-        android:gravity="center"
+        android:id="@+id/textView_score_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:textSize="25dp"
         android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/button_quiz_true"
+        app:layout_constraintBottom_toTopOf="@+id/textView_score_des"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button_quiz_true"
+        android:id="@+id/button_score_playAgain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="@string/quiz_true"
-        app:layout_constraintBottom_toTopOf="@+id/button_quiz_false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_quiz_question" />
-
-    <Button
-        android:id="@+id/button_quiz_false"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:text="@string/quiz_false"
-        app:layout_constraintBottom_toTopOf="@+id/textView_quiz_score"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_quiz_true" />
-
-    <TextView
-        android:id="@+id/textView_quiz_score"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:text="TextView"
+        android:text="@string/score_playagain"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_quiz_false" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_score_des" />
+
+    <TextView
+        android:id="@+id/textView_score_des"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/button_score_playAgain"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_score_score" />
 </android.support.constraint.ConstraintLayout>
