@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Useful Trivia</string>
+    <string name="app_name">Larry the Orca\'s Super Cool Trivia game</string>
     <string name="quiz_true">True</string>
     <string name="quiz_false">False</string>
     <string name="score_playagain">Play Again</string>

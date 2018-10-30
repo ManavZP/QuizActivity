@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.Arrays;
 import java.util.List;
+import android.os.Handler;
+
 
 public class QuizActivity extends AppCompatActivity {
     
@@ -35,11 +38,20 @@ public class QuizActivity extends AppCompatActivity {
     private Button falseSelect;
 
     private Quiz quiz;
-    //private int i = 0;
+
+
+
+    private TextView timerTextView;
+    private int time = 20;
+
+
+    private ImageView pausePlay;
+    private TextView pause;
 
     private int scoreNumber;
     
     private TextView score;
+    private boolean paused = false;
 
     public static final String TAG = "MainActivity";
 
@@ -49,6 +61,31 @@ public class QuizActivity extends AppCompatActivity {
 
     //private String q;
 
+
+    private Handler timerHandler = new Handler();
+
+
+
+    private Runnable timerRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+
+            if(time != 0){
+                time--;
+                timerTextView.setText(" " + time);
+                timerHandler.postDelayed(this, 1000);
+            }
+            else{
+                finishAffinity();
+            }
+
+        }
+    };
+
+    //runs without a timer by reposting this handler at the end of the runnable
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +93,8 @@ public class QuizActivity extends AppCompatActivity {
         
         wireWidgets();
         setOnClickListeners();
+
+        startTimer();
 
 
         InputStream XmlFileInputStream = getResources().openRawResource(R.raw.questions);
@@ -70,6 +109,12 @@ public class QuizActivity extends AppCompatActivity {
 
     }
 
+    private void startTimer() {
+
+
+        timerHandler.postDelayed(timerRunnable, 1000);
+
+    }
 
 
     private void updateDisplay(int winOrLose) {
@@ -104,6 +149,13 @@ public class QuizActivity extends AppCompatActivity {
         //questionText.setText(quiz.getQuestion().toString());
 
         int temp = quiz.getScoreNum();
+
+        time=20;
+        timerTextView.setText(" " + time);
+        timerHandler.removeCallbacks(timerRunnable);
+        paused = true;
+        pause();
+
 
         quiz.resetScore();
         updateDisplay(3);
@@ -151,6 +203,12 @@ public class QuizActivity extends AppCompatActivity {
         trueSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(paused == true){
+                    timerHandler.postDelayed(timerRunnable, 1000);
+                    paused = false;
+                    unPause();
+                }
+
                 if(quiz.getQuestion().getAnswer() == true){
                     updateDisplay(1);
                 }
@@ -163,6 +221,11 @@ public class QuizActivity extends AppCompatActivity {
         falseSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(paused == true){
+                    timerHandler.postDelayed(timerRunnable, 1000);
+                    paused = false;
+                    unPause();
+                }
                 if(quiz.getQuestion().getAnswer() == false){
                     //Toast.makeText(QuizActivity.this, "CHECKKCKEKKC", Toast.LENGTH_SHORT).show();
                     updateDisplay(1);
@@ -173,6 +236,35 @@ public class QuizActivity extends AppCompatActivity {
 
             }
         });
+
+        pausePlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(paused == true){
+                    timerHandler.postDelayed(timerRunnable, 1000);
+                    paused = false;
+                    unPause();
+                }
+                else{
+                    timerHandler.removeCallbacks(timerRunnable);
+                    paused = true;
+                    pause();
+                }
+            }
+        });
+    }
+
+    public void unPause(){
+        trueSelect.setVisibility(View.VISIBLE);
+        falseSelect.setVisibility(View.VISIBLE);
+        questionText.setVisibility(View.VISIBLE);
+        pause.setVisibility(View.GONE);
+    }
+    public void pause(){
+        trueSelect.setVisibility(View.GONE);
+        falseSelect.setVisibility(View.GONE);
+        questionText.setVisibility(View.GONE);
+        pause.setVisibility(View.VISIBLE);
     }
 
     private void wireWidgets() {
@@ -181,6 +273,16 @@ public class QuizActivity extends AppCompatActivity {
         trueSelect = findViewById(R.id.button_quiz_true);
         falseSelect = findViewById(R.id.button_quiz_false);
         score = findViewById(R.id.textView_quiz_score);
+
+
+        timerTextView = findViewById(R.id.textView_quiz_timer);
+
+
+        pausePlay = findViewById(R.id.imageView_quiz_pause);
+
+        pausePlay.setColorFilter(this.getResources().getColor(R.color.maroon));
+        pause = findViewById(R.id.textView_quiz_pauseText);
+        pause.setVisibility(View.GONE);
         
     }
 }
